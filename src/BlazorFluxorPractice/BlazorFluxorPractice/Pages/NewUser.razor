@@ -1,0 +1,45 @@
+@using BlazorFluxorPractice.States.Users 
+@using BlazorFluxorPractice.Models
+@inject IDispatcher Dispatcher
+
+@if (IsOpen)
+{
+    <div class="modal" tabindex="-1" style="display:block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">New User</h5>
+                    <button type="button" class="close" @onclick="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="First Name" @bind="newUser.FirstName" />
+                    <input type="text" class="form-control" placeholder="Last Name" @bind="newUser.LastName" />
+                    <input type="text" class="form-control" placeholder="Email" @bind="newUser.Email" />
+                    <!-- Agrega más campos según sea necesario -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @onclick="CreateUser">Create</button>
+                    <button type="button" class="btn btn-secondary" @onclick="Close">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsOpen { get; set; } // Esta propiedad se puede usar para controlar la visibilidad del modal
+    [Parameter] public EventCallback OnClose { get; set; } // Este evento retorna a la vista de usuarios una vez el usuario es creado
+
+    User newUser = new User();
+
+    void Close() => OnClose.InvokeAsync();
+
+    void CreateUser()
+    {
+        // Despacha la creación del usuario con las propiedades importadas de tu modelo
+        Dispatcher.Dispatch(new CreateUserAction(newUser));
+        Close();
+    }
+}

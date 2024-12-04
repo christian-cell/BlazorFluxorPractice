@@ -1,4 +1,6 @@
 ﻿@using BlazorFluxorPractice.States.Counter
+@using BlazorFluxorPractice.States.Users
+@using BlazorFluxorPractice.Models
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BlazorFluxorPractice</a>
@@ -17,19 +19,20 @@
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter (@CounterState.Value.Count)
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter @*(@CounterState.Value.Count)*@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            <NavLink class="nav-link" href="users">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Users @*@(UserState.Value.IsLoading) *@
             </NavLink>
         </div>
     </nav>
 </div>
 
 @code {
-    [Inject] IState<CounterState> CounterState { get; set; }
+    /*[Inject] IState<CounterState> CounterState { get; set; }
+    [Inject] IState<UserState> UserState { get; set; }*/
     
     private bool collapseNavMenu = true;
 
