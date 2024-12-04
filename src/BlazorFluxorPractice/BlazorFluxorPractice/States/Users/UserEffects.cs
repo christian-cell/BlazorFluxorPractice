@@ -96,7 +96,7 @@ namespace BlazorFluxorPractice.States.Users
         
                 if(response.IsSuccessStatusCode)
                 {
-                    dispatcher.Dispatch(new CreateUserActionSuccess(action.User));
+                    dispatcher.Dispatch(new UpdateUserActionSuccess(action.User));
                 }
                 else
                 {

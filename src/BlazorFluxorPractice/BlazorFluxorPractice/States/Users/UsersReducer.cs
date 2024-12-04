@@ -15,7 +15,9 @@ namespace BlazorFluxorPractice.States.Users
         [ReducerMethod]
         public static UserState OnStoreUsers(UserState state, LoadUsersAction action)
         {
-            var newState = state with { Users = action.Users, IsLoading = false , IsFirstLoading = false };
+            var sortedUsers = action.Users.OrderByDescending(user => user.UserId).ToList();
+
+            var newState = state with { Users = sortedUsers, IsLoading = false, IsFirstLoading = false };
 
             return newState;
         }
@@ -52,9 +54,9 @@ namespace BlazorFluxorPractice.States.Users
         public static UserState CreateUserActionSuccess(UserState state, CreateUserActionSuccess action)
         {
             var newUsers = state.Users.ToList();
-            
-            newUsers.Add(action.User);
-            
+
+            newUsers.Insert(0, action.User);
+
             return state with { Users = newUsers, IsLoading = false, IsFirstLoading = false };
         }
 
@@ -65,8 +67,12 @@ namespace BlazorFluxorPractice.States.Users
         [ReducerMethod]
         public static UserState UpdateUserActionSuccess(UserState state, UpdateUserActionSuccess action)
         {
-            
-            Console.WriteLine($"...action : {JsonSerializer.Serialize(action)}");
+            var index = state.Users.FindIndex(u => u.UserId == action.User.UserId);
+
+            if ( index >= 0 )
+            {
+                state.Users[index] = action.User;
+            }
 
             return state;
         }
