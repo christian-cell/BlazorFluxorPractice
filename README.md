@@ -9,6 +9,7 @@
 3 Set up Fluxor in program.cs
 ```
     using Fluxor;
+    using Fluxor.Blazor.Web.ReduxDevTools;
 
     builder.Services.AddFluxor(options =>
     {
